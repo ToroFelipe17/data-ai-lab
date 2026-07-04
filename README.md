@@ -1,117 +1,117 @@
-# Data & AI Lab
+# Laboratorio de Datos e IA
 
-This repository is a public, progressive laboratory for developing and documenting practical skills in data and applied artificial intelligence. It is currently at its foundation stage: the structure and working standards are in place, but no data projects have been published yet.
+Este repositorio es un laboratorio público y progresivo para desarrollar y documentar habilidades prácticas relacionadas con datos e inteligencia artificial aplicada. Actualmente se encuentra en su etapa fundacional: la estructura y los principios de trabajo ya están definidos, pero todavía no se han publicado proyectos de datos.
 
-> Building products with purpose.
+> Construir productos con propósito.
 
-The laboratory follows a simple approach: learn by building, demonstrate through understanding, and document to evolve.
+El laboratorio sigue un enfoque sencillo: aprender construyendo, demostrar mediante la comprensión y documentar para evolucionar.
 
-## Purpose
+## Propósito
 
-The purpose of this repository is to turn technical learning into public evidence that is understandable, reproducible, and honestly documented. Each future project should make its reasoning visible, not only its output.
+El propósito de este repositorio es convertir el aprendizaje técnico en evidencia pública comprensible, reproducible y documentada con honestidad. Cada proyecto futuro deberá hacer visible su razonamiento, no solo sus resultados.
 
-## Focus Areas
+## Áreas de enfoque
 
-The laboratory will progressively explore:
+El laboratorio abordará progresivamente:
 
-- Python for data.
-- Data cleaning and transformation.
-- Exploratory data analysis.
-- Data visualization.
-- Applied statistics.
-- Machine learning.
-- Model evaluation.
-- Big data.
-- Automation.
-- Applied artificial intelligence.
+- Python aplicado a datos.
+- Limpieza y transformación de datos.
+- Análisis exploratorio de datos.
+- Visualización de datos.
+- Estadística aplicada.
+- Aprendizaje automático.
+- Evaluación de modelos.
+- Procesamiento de datos a gran escala.
+- Automatización.
+- Inteligencia artificial aplicada.
 
-These are planned areas of development, not claims about work already completed.
+Estas son áreas de desarrollo planificadas, no afirmaciones sobre trabajo ya realizado.
 
-## Working Principles
+## Principios de trabajo
 
-- Understanding before complexity.
-- Reproducibility from data preparation to interpretation.
-- Clear technical documentation.
-- Honest interpretation of results.
-- Explicit assumptions and limitations.
-- Progressive difficulty.
-- Simple solutions before unnecessary abstraction.
-- No hidden failures or selective reporting.
+- Comprensión antes que complejidad.
+- Reproducibilidad desde la preparación de los datos hasta su interpretación.
+- Documentación técnica clara.
+- Interpretación honesta de los resultados.
+- Supuestos y limitaciones explícitos.
+- Dificultad progresiva.
+- Soluciones simples antes que abstracciones innecesarias.
+- Sin errores ocultos ni presentación selectiva de resultados.
 
-## Repository Structure
+## Estructura del repositorio
 
-- `notebooks/`: focused, numbered notebooks for exploration, explanation, and experiments.
-- `datasets/`: datasets that may be stored legally and responsibly, or instructions for obtaining data that cannot be committed.
-- `projects/`: self-contained, numbered data projects with descriptive names.
-- `src/`: reusable Python modules when a concrete project justifies shared code.
-- `docs/`: supporting technical documentation that does not belong in a project README.
-- `requirements.txt`: external Python packages actually required by executable repository code.
+- `notebooks/`: cuadernos numerados y enfocados en exploración, explicación y experimentación.
+- `datasets/`: conjuntos de datos que puedan almacenarse legal y responsablemente, o instrucciones para obtener aquellos que no puedan incluirse en el repositorio.
+- `projects/`: proyectos de datos independientes, numerados y con nombres descriptivos.
+- `src/`: módulos reutilizables de Python cuando un proyecto concreto justifique compartir código.
+- `docs/`: documentación técnica complementaria que no corresponda al README de un proyecto.
+- `requirements.txt`: paquetes externos de Python que el código ejecutable del repositorio realmente necesite.
 
-The structure may evolve when a concrete need appears. `requirements.txt` is intentionally empty because the repository does not yet contain executable Python code requiring external packages.
+La estructura podrá evolucionar cuando exista una necesidad concreta. `requirements.txt` está intencionalmente vacío porque el repositorio todavía no contiene código ejecutable de Python que requiera paquetes externos.
 
-## Project Organization
+## Organización de proyectos
 
-Future projects will be numbered and named descriptively, for example:
+Los proyectos futuros estarán numerados y tendrán nombres descriptivos, por ejemplo:
 
 ```text
 projects/
-└── 01-online-shoppers-analysis/
+└── 01-analisis-compradores-en-linea/
 ```
 
-Each project should document:
+Cada proyecto deberá documentar:
 
-- Objective.
-- Context.
-- Dataset source.
-- Dataset usage conditions or license.
-- Questions or hypotheses.
-- Data preparation.
-- Methodology.
-- Results.
-- Interpretation.
-- Limitations.
-- Conclusions.
-- Next steps.
+- Objetivo.
+- Contexto.
+- Fuente del conjunto de datos.
+- Condiciones de uso o licencia del conjunto de datos.
+- Preguntas o hipótesis.
+- Preparación de los datos.
+- Metodología.
+- Resultados.
+- Interpretación.
+- Limitaciones.
+- Conclusiones.
+- Próximos pasos.
 
-Folders will use lowercase `kebab-case`; Python files will use lowercase `snake_case`. Notebooks will be numbered and descriptive, for example:
+Las carpetas utilizarán minúsculas y `kebab-case`; los archivos de Python utilizarán minúsculas y `snake_case`. Los cuadernos estarán numerados y tendrán nombres descriptivos, por ejemplo:
 
 ```text
 notebooks/
-├── 01-data-loading.ipynb
-├── 02-data-cleaning.ipynb
-└── 03-exploratory-analysis.ipynb
+├── 01-carga-de-datos.ipynb
+├── 02-limpieza-de-datos.ipynb
+└── 03-analisis-exploratorio.ipynb
 ```
 
-Future code should use clear names, avoid unnecessary duplication, separate responsibilities when useful, prefer relative paths, and avoid undocumented local assumptions. Notebooks should follow a logical order, run from beginning to end, distinguish code and results from interpretation, use random seeds when appropriate, and avoid abandoned cells or excessive output.
+El código futuro deberá utilizar nombres claros, evitar duplicación innecesaria, separar responsabilidades cuando sea útil, preferir rutas relativas y evitar supuestos locales sin documentar. Los cuadernos deberán seguir un orden lógico, ejecutarse de principio a fin, distinguir el código y los resultados de su interpretación, utilizar semillas aleatorias cuando corresponda y evitar celdas abandonadas o salidas excesivas.
 
-## Roadmap
+## Hoja de ruta
 
-1. Repository foundation — completed by this initial setup.
-2. Exploratory data analysis.
-3. Supervised learning.
-4. Segmentation or clustering.
-5. Big data workflows.
-6. Applied AI and automation.
+1. Base del repositorio — completada con esta configuración inicial.
+2. Análisis exploratorio de datos.
+3. Aprendizaje supervisado.
+4. Segmentación o agrupamiento.
+5. Flujos de trabajo con datos a gran escala.
+6. Inteligencia artificial aplicada y automatización.
 
-This roadmap is a direction for future work, not a delivery schedule.
+Esta hoja de ruta expresa una dirección para el trabajo futuro, no un calendario de entregas.
 
-## Current Status
+## Estado actual
 
-Initial repository setup. No data projects have been published yet.
+Configuración inicial del repositorio. Todavía no se han publicado proyectos de datos.
 
-## Reproducibility and Documentation
+## Reproducibilidad y documentación
 
-Future projects should:
+Los proyectos futuros deberán:
 
-- Use identifiable data sources and respect their licenses and usage conditions.
-- Avoid private, sensitive, or unnecessary personal information.
-- Explain how to obtain datasets that cannot be stored on GitHub.
-- Prefer relative paths where practical.
-- Record only real, necessary dependencies.
-- Run in a clear and reproducible sequence.
-- Explain decisions, failures, and limitations.
-- Interpret results instead of presenting metrics without context.
+- Utilizar fuentes de datos identificables y respetar sus licencias y condiciones de uso.
+- Evitar información privada, sensible o personal que no sea necesaria.
+- Explicar cómo obtener los conjuntos de datos que no puedan almacenarse en GitHub.
+- Preferir rutas relativas cuando sea posible.
+- Registrar únicamente dependencias reales y necesarias.
+- Ejecutarse en una secuencia clara y reproducible.
+- Explicar decisiones, errores y limitaciones.
+- Interpretar los resultados en lugar de presentar métricas sin contexto.
 
-## Author
+## Autor
 
-Felipe Toro — building at the intersection of software, data, product, and applied artificial intelligence.
+Felipe Toro — construyendo en la intersección entre software, datos, producto e inteligencia artificial aplicada.
