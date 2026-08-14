@@ -1,6 +1,6 @@
 # Laboratorio de Datos e IA
 
-Este repositorio es un laboratorio público y progresivo para desarrollar y documentar habilidades prácticas relacionadas con datos e inteligencia artificial aplicada. Actualmente se encuentra en su etapa fundacional: la estructura y los principios de trabajo ya están definidos, pero todavía no se han publicado proyectos de datos.
+Este repositorio es un laboratorio público y progresivo para desarrollar y documentar habilidades prácticas relacionadas con datos e inteligencia artificial aplicada. Actualmente se encuentra en su etapa fundacional: la estructura y los principios de trabajo ya están definidos, y el primer proyecto se encuentra en fase de diseño.
 
 > Construir productos con propósito.
 
@@ -51,12 +51,14 @@ La estructura podrá evolucionar cuando exista una necesidad concreta. `requirem
 
 ## Organización de proyectos
 
-Los proyectos futuros estarán numerados y tendrán nombres descriptivos, por ejemplo:
+Los proyectos están numerados y tienen nombres descriptivos. El primer proyecto inicializado es:
 
 ```text
 projects/
-└── 01-analisis-compradores-en-linea/
+└── 01-online-shoppers-purchase-intention/
 ```
+
+Consulta su [documento de diseño](projects/01-online-shoppers-purchase-intention/README.md) para conocer el problema, el alcance y la metodología prevista.
 
 Cada proyecto deberá documentar:
 
@@ -97,7 +99,7 @@ Esta hoja de ruta expresa una dirección para el trabajo futuro, no un calendari
 
 ## Estado actual
 
-Configuración inicial del repositorio. Todavía no se han publicado proyectos de datos.
+Configuración inicial completada. El Proyecto 01 está inicializado documentalmente; todavía no se han ejecutado análisis ni modelos.
 
 ## Reproducibilidad y documentación
 
