@@ -58,7 +58,9 @@ projects/
 └── 01-online-shoppers-purchase-intention/
 ```
 
-Consulta su [documento de diseño](projects/01-online-shoppers-purchase-intention/README.md) para conocer el problema, el alcance y la metodología prevista.
+Consulta el [README del Proyecto 01](projects/01-online-shoppers-purchase-intention/README.md) para conocer el problema, el análisis, el baseline reproducible y sus limitaciones.
+
+**Proyecto 01:** análisis y predicción de intención de compra en sesiones de comercio electrónico. Utiliza Python, pandas, matplotlib y scikit-learn para documentar un EDA reproducible y un primer baseline de clasificación. Estado: primer hito analítico completado, abierto a revisión y futuras validaciones.
 
 Cada proyecto deberá documentar:
 
@@ -99,7 +101,7 @@ Esta hoja de ruta expresa una dirección para el trabajo futuro, no un calendari
 
 ## Estado actual
 
-Configuración inicial completada. El Proyecto 01 tiene un primer experimento de clasificación ejecutado y documentado; el proyecto completo todavía no está terminado.
+Configuración inicial completada. El Proyecto 01 es el primer proyecto funcional del laboratorio y cuenta con un hito analítico y baseline predictivo reproducibles; permanece abierto a validaciones posteriores.
 
 ## Reproducibilidad y documentación
 

@@ -1,0 +1,155 @@
+{
+  "dataset": {
+    "path": "datasets/online_shoppers_intention.csv",
+    "source_sha256": "B3055EE355F59134D851D32641183CB4A8B45DEF7124D2F50442A042F358E0D9",
+    "shape": [
+      12330,
+      18
+    ],
+    "missing_values": 0,
+    "duplicate_rows_removed_for_ml": 125,
+    "duplicate_rows_involved": 201,
+    "duplicate_patterns": 76,
+    "revenue_distribution": {
+      "False": {
+        "sessions": 10422,
+        "percentage": 84.5255
+      },
+      "True": {
+        "sessions": 1908,
+        "percentage": 15.4745
+      }
+    }
+  },
+  "weekend_conversion": {
+    "False": {
+      "sessions": 9462,
+      "purchases": 1409,
+      "conversion_rate_percent": 14.8911
+    },
+    "True": {
+      "sessions": 2868,
+      "purchases": 499,
+      "conversion_rate_percent": 17.3989
+    }
+  },
+  "visitor_type_conversion": {
+    "New_Visitor": {
+      "sessions": 1694,
+      "purchases": 422,
+      "conversion_rate_percent": 24.9115
+    },
+    "Other": {
+      "sessions": 85,
+      "purchases": 16,
+      "conversion_rate_percent": 18.8235
+    },
+    "Returning_Visitor": {
+      "sessions": 10551,
+      "purchases": 1470,
+      "conversion_rate_percent": 13.9323
+    }
+  },
+  "month_conversion": {
+    "Feb": {
+      "sessions": 184,
+      "purchases": 3,
+      "conversion_rate_percent": 1.6304
+    },
+    "Mar": {
+      "sessions": 1907,
+      "purchases": 192,
+      "conversion_rate_percent": 10.0682
+    },
+    "May": {
+      "sessions": 3364,
+      "purchases": 365,
+      "conversion_rate_percent": 10.8502
+    },
+    "June": {
+      "sessions": 288,
+      "purchases": 29,
+      "conversion_rate_percent": 10.0694
+    },
+    "Jul": {
+      "sessions": 432,
+      "purchases": 66,
+      "conversion_rate_percent": 15.2778
+    },
+    "Aug": {
+      "sessions": 433,
+      "purchases": 76,
+      "conversion_rate_percent": 17.552
+    },
+    "Sep": {
+      "sessions": 448,
+      "purchases": 86,
+      "conversion_rate_percent": 19.1964
+    },
+    "Oct": {
+      "sessions": 549,
+      "purchases": 115,
+      "conversion_rate_percent": 20.9472
+    },
+    "Nov": {
+      "sessions": 2998,
+      "purchases": 760,
+      "conversion_rate_percent": 25.3502
+    },
+    "Dec": {
+      "sessions": 1727,
+      "purchases": 216,
+      "conversion_rate_percent": 12.5072
+    }
+  },
+  "numeric_by_revenue": {
+    "ProductRelated": {
+      "Sin compra": {
+        "sessions": 10422,
+        "mean": 28.714642,
+        "median": 16.0
+      },
+      "Compra": {
+        "sessions": 1908,
+        "mean": 48.210168,
+        "median": 29.0
+      }
+    },
+    "ProductRelated_Duration": {
+      "Sin compra": {
+        "sessions": 10422,
+        "mean": 1069.987809,
+        "median": 510.19
+      },
+      "Compra": {
+        "sessions": 1908,
+        "mean": 1876.209615,
+        "median": 1109.90625
+      }
+    },
+    "PageValues": {
+      "Sin compra": {
+        "sessions": 10422,
+        "mean": 1.975998,
+        "median": 0.0
+      },
+      "Compra": {
+        "sessions": 1908,
+        "mean": 27.264518,
+        "median": 16.758134
+      }
+    }
+  },
+  "figures": [
+    "figures/product_related_by_revenue.png",
+    "figures/product_related_duration_by_revenue.png",
+    "figures/page_values_by_revenue.png",
+    "figures/conversion_by_visitor_type.png",
+    "figures/conversion_by_month.png"
+  ],
+  "software": {
+    "python": "3.13.14",
+    "pandas": "3.0.5",
+    "matplotlib": "3.11.1"
+  }
+}

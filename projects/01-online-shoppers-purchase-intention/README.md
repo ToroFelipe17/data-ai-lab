@@ -2,7 +2,7 @@
 
 ## Estado actual
 
-**Primer experimento de Machine Learning ejecutado; proyecto en desarrollo.** Se verificó el CSV, se preparó una copia en memoria sin modificar la fuente, y se compararon un baseline de clase mayoritaria y dos pipelines de regresión logística. El proyecto completo todavía no está terminado y no se ha realizado un EDA amplio.
+**Primer hito analítico y baseline predictivo completados.** Se verificó el CSV, se generaron cinco visualizaciones reproducibles y se compararon un baseline de clase mayoritaria y dos pipelines de regresión logística. El proyecto permanece abierto a revisión y futuras validaciones; no se declara terminado.
 
 ## Descripción y motivación
 
@@ -159,6 +159,50 @@ La metodología podrá ajustarse si la auditoría descubre restricciones del arc
 - La evaluación distinguirá desempeño predictivo de explicación causal.
 - La inclusión de variables como `PageValues` se revisará considerando el momento en que estarían disponibles.
 
+## Auditoría inicial
+
+La ejecución reproducible confirmó:
+
+- shape original: `12.330 filas x 18 columnas`;
+- valores faltantes: `0`;
+- repeticiones posteriores: `125`;
+- filas involucradas en grupos repetidos: `201`;
+- patrones repetidos: `76`;
+- `Revenue=False`: `10.422` sesiones (`84.5255 %`);
+- `Revenue=True`: `1.908` sesiones (`15.4745 %`).
+
+El CSV original permanece intacto. Para el experimento de Machine Learning se conservaron `12.205` filas después de eliminar únicamente las apariciones duplicadas posteriores en memoria. `Revenue=True` permaneció en `1.908`, mientras `Revenue=False` pasó de `10.422` a `10.297`; por ello la prevalencia positiva cambia ligeramente. No se demostró que las filas repetidas fueran errores.
+
+## EDA reproducible
+
+El script [`eda_summary.py`](src/eda_summary.py) lee el archivo local mediante una ruta derivada del repositorio y genera cinco figuras. El resumen numérico reproducible está en [`eda_summary.json`](outputs/eda_summary.json).
+
+### Comportamiento de navegación
+
+![ProductRelated según Revenue](outputs/figures/product_related_by_revenue.png)
+
+Las sesiones con compra presentan una mediana y una media mayores de `ProductRelated` (`29` y `48.2102`) que las sesiones sin compra (`16` y `28.7146`). Esto describe una asociación observada, no una relación causal.
+
+![ProductRelated_Duration según Revenue](outputs/figures/product_related_duration_by_revenue.png)
+
+`ProductRelated_Duration` también presenta valores centrales mayores en las sesiones con compra: mediana `1109.9063` y media `1876.2096`, frente a mediana `510.19` y media `1069.9878`.
+
+![PageValues según Revenue](outputs/figures/page_values_by_revenue.png)
+
+`PageValues` muestra una separación especialmente marcada: la mediana es `0` para sesiones sin compra y `16.7581` para sesiones con compra. Su disponibilidad temporal sigue requiriendo revisión antes de interpretar esta señal en un escenario real.
+
+### Categorías y conversión
+
+![Tasa de conversión según VisitorType](outputs/figures/conversion_by_visitor_type.png)
+
+La tasa observada fue `13.9323 %` para `Returning_Visitor`, `24.9115 %` para `New_Visitor` y `18.8235 %` para `Other`. `Other` se reporta como categoría existente; no se le atribuye un significado adicional.
+
+![Tasa de conversión según Month](outputs/figures/conversion_by_month.png)
+
+La figura usa únicamente meses presentes en el archivo y conserva el orden `Feb`, `Mar`, `May`, `June`, `Jul`, `Aug`, `Sep`, `Oct`, `Nov`, `Dec`. `Nov` tuvo la mayor tasa observada (`25.3502 %`) y `Feb` la menor (`1.6304 %`); esto no demuestra causalidad estacional.
+
+También se verificó una diferencia observada entre `Weekend=False` (`14.8911 %`) y `Weekend=True` (`17.3989 %`). Estos porcentajes no deben interpretarse como efecto causal del día de visita.
+
 ## Primer experimento de Machine Learning
 
 ### Diseño implementado
@@ -173,9 +217,9 @@ La metodología podrá ajustarse si la auditoría descubre restricciones del arc
 
 Las variables numéricas fueron las definidas en el diseño inicial. `Month`, `OperatingSystems`, `Browser`, `Region`, `TrafficType`, `VisitorType` y `Weekend` se trataron como categóricas, sin imponer ordinalidad a sus códigos. El Experimento A excluye `PageValues`; el Experimento B la agrega como variable numérica. Ambos reutilizan el mismo split y el mismo pipeline.
 
-### Auditoría mínima y distribución
+### Distribución de train/test
 
-La distribución original de `Revenue` fue `False=10.422 (84.5255 %)` y `True=1.908 (15.4745 %)`. Después de eliminar duplicados para el modelado quedó `False=10.297 (84.3671 %)` y `True=1.908 (15.6329 %)`. No se detectaron valores faltantes.
+Después de eliminar duplicados para el modelado quedó `False=10.297 (84.3671 %)` y `True=1.908 (15.6329 %)`. La partición estratificada conservó aproximadamente esa proporción.
 
 | Conjunto | Filas | Revenue=False | Revenue=True |
 | --- | ---: | ---: | ---: |
@@ -222,6 +266,8 @@ Los coeficientes representan asociaciones aprendidas por el modelo y no demuestr
 - La interpretación no es causal.
 - La disponibilidad temporal de `PageValues` sigue pendiente.
 - La eliminación de duplicados fue una decisión metodológica de evaluación, no una corrección demostrada del dataset.
+- Los meses ausentes no se rellenaron ni se representaron con valor cero.
+- La categoría `Other` de `VisitorType` no está reinterpretada.
 
 Este experimento es una primera medición reproducible, no una declaración de que el proyecto esté terminado.
 
@@ -239,9 +285,17 @@ data-ai-lab/
 │   └── 01-online-shoppers-purchase-intention/
 │       ├── README.md
 │       ├── src/
-│       │   └── baseline_model.py
+│       │   ├── baseline_model.py
+│       │   └── eda_summary.py
 │       └── outputs/
-│           └── baseline_metrics.json
+│           ├── baseline_metrics.json
+│           ├── eda_summary.json
+│           └── figures/
+│               ├── product_related_by_revenue.png
+│               ├── product_related_duration_by_revenue.png
+│               ├── page_values_by_revenue.png
+│               ├── conversion_by_visitor_type.png
+│               └── conversion_by_month.png
 ├── src/                      # código reutilizable, solo si existe una necesidad real
 └── docs/                     # documentación transversal, si llega a ser necesaria
 ```
@@ -252,7 +306,28 @@ Esta decisión mantiene el código y los resultados del proyecto juntos, reutili
 
 El trabajo terminado deberá indicar cómo obtener el dataset desde la fuente primaria, qué versión o archivo se utilizó, qué dependencias son necesarias, en qué orden se ejecutan los artefactos y qué decisiones afectan los resultados. Se preferirán rutas relativas y configuraciones explícitas; no se aceptarán rutas locales hardcodeadas ni dependencias ocultas.
 
-Las dependencias directas utilizadas por el script están fijadas en `requirements.txt`: `pandas==3.0.5` y `scikit-learn==1.9.0`. Las versiones observadas durante la ejecución fueron Python 3.13.14, pandas 3.0.5 y scikit-learn 1.9.0.
+Las dependencias directas utilizadas por los scripts están fijadas en `requirements.txt`: `pandas==3.0.5`, `scikit-learn==1.9.0` y `matplotlib==3.11.1`. Las versiones observadas durante la ejecución fueron Python 3.13.14, pandas 3.0.5, scikit-learn 1.9.0 y matplotlib 3.11.1.
+
+### Ejecución en Windows PowerShell
+
+Desde la raíz del repositorio:
+
+```powershell
+py -m pip install -r requirements.txt
+
+$zip = Join-Path $env:TEMP "online-shoppers-purchasing-intention.zip"
+$extract = Join-Path $env:TEMP "online-shoppers-purchasing-intention"
+Invoke-WebRequest `
+  -Uri "https://archive.ics.uci.edu/static/public/468/online%2Bshoppers%2Bpurchasing%2Bintention%2Bdataset.zip" `
+  -OutFile $zip
+Expand-Archive -LiteralPath $zip -DestinationPath $extract -Force
+Copy-Item (Join-Path $extract "online_shoppers_intention.csv") "datasets/online_shoppers_intention.csv"
+
+py projects/01-online-shoppers-purchase-intention/src/eda_summary.py
+py projects/01-online-shoppers-purchase-intention/src/baseline_model.py
+```
+
+El archivo esperado es `datasets/online_shoppers_intention.csv`, excluido por `.gitignore`. Su SHA-256 conocido es `B3055EE355F59134D851D32641183CB4A8B45DEF7124D2F50442A042F358E0D9`. La fuente oficial es UCI Machine Learning Repository, dataset 468, DOI [`10.24432/C5F88Q`](https://doi.org/10.24432/C5F88Q), bajo CC BY 4.0. El script EDA genera exactamente cinco PNG y `baseline_model.py` genera `outputs/baseline_metrics.json`.
 
 ## Criterios de finalización
 
@@ -273,6 +348,12 @@ El Proyecto 01 podrá considerarse terminado cuando:
 
 Estos criterios corresponden a un proyecto individual de aprendizaje; no implican despliegue productivo ni una validación empresarial completa.
 
+## Estado público
+
+> Primer hito analítico y baseline predictivo reproducible completados. El proyecto permanece abierto a revisión y futuras validaciones.
+
+Este estado no implica modelo definitivo, solución productiva, análisis causal ni cierre científico del Proyecto 01.
+
 ## Próximos pasos
 
-El siguiente paso lógico es revisar humanamente la disponibilidad temporal de `PageValues` y decidir si se justifica una evaluación posterior, sin modificar este test ni iniciar tuning automáticamente.
+El siguiente paso lógico es una revisión humana de la disponibilidad temporal de `PageValues` y de la estabilidad de los hallazgos antes de cualquier nueva evaluación. No se propone tuning ni cambio de threshold en esta etapa.
