@@ -1,0 +1,442 @@
+{
+  "experiment": "Project 01 first machine learning experiment",
+  "dataset": {
+    "path": "datasets/online_shoppers_intention.csv",
+    "source_sha256": "B3055EE355F59134D851D32641183CB4A8B45DEF7124D2F50442A042F358E0D9",
+    "original_shape": [
+      12330,
+      18
+    ],
+    "missing_values": 0,
+    "original_revenue_distribution": {
+      "False": {
+        "count": 10422,
+        "percentage": 84.5255
+      },
+      "True": {
+        "count": 1908,
+        "percentage": 15.4745
+      }
+    },
+    "duplicate_rows_removed": 125,
+    "duplicate_rows_involved": 201,
+    "duplicate_patterns": 76,
+    "final_shape_used_for_ml": [
+      12205,
+      18
+    ],
+    "final_revenue_distribution": {
+      "False": {
+        "count": 10297,
+        "percentage": 84.3671
+      },
+      "True": {
+        "count": 1908,
+        "percentage": 15.6329
+      }
+    }
+  },
+  "target": {
+    "column": "Revenue",
+    "positive_label": "Revenue=True",
+    "problem_type": "binary classification"
+  },
+  "feature_design": {
+    "numeric": [
+      "Administrative",
+      "Administrative_Duration",
+      "Informational",
+      "Informational_Duration",
+      "ProductRelated",
+      "ProductRelated_Duration",
+      "BounceRates",
+      "ExitRates",
+      "SpecialDay"
+    ],
+    "categorical": [
+      "Month",
+      "OperatingSystems",
+      "Browser",
+      "Region",
+      "TrafficType",
+      "VisitorType",
+      "Weekend"
+    ],
+    "page_values": "numeric only in Experiment B"
+  },
+  "split": {
+    "test_size": 0.2,
+    "random_state": 42,
+    "same_split_used_for_both_logistic_experiments": true,
+    "train_rows": 9764,
+    "test_rows": 2441,
+    "train_distribution": {
+      "False": {
+        "count": 8238,
+        "percentage": 84.3712
+      },
+      "True": {
+        "count": 1526,
+        "percentage": 15.6288
+      }
+    },
+    "test_distribution": {
+      "False": {
+        "count": 2059,
+        "percentage": 84.3507
+      },
+      "True": {
+        "count": 382,
+        "percentage": 15.6493
+      }
+    }
+  },
+  "baseline": {
+    "model": "DummyClassifier(strategy='most_frequent')",
+    "features_used": "none by design",
+    "metrics": {
+      "accuracy": 0.8435067595247849,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "roc_auc": 0.5,
+      "pr_auc": 0.15649324047521507
+    },
+    "confusion_matrix": [
+      [
+        2059,
+        0
+      ],
+      [
+        382,
+        0
+      ]
+    ]
+  },
+  "experiment_a_without_page_values": {
+    "model": "LogisticRegression",
+    "question": "Predict Revenue using session behavior and context without PageValues.",
+    "include_page_values": false,
+    "features": [
+      "Administrative",
+      "Administrative_Duration",
+      "Informational",
+      "Informational_Duration",
+      "ProductRelated",
+      "ProductRelated_Duration",
+      "BounceRates",
+      "ExitRates",
+      "SpecialDay",
+      "Month",
+      "OperatingSystems",
+      "Browser",
+      "Region",
+      "TrafficType",
+      "VisitorType",
+      "Weekend"
+    ],
+    "numeric_features": [
+      "Administrative",
+      "Administrative_Duration",
+      "Informational",
+      "Informational_Duration",
+      "ProductRelated",
+      "ProductRelated_Duration",
+      "BounceRates",
+      "ExitRates",
+      "SpecialDay"
+    ],
+    "categorical_features": [
+      "Month",
+      "OperatingSystems",
+      "Browser",
+      "Region",
+      "TrafficType",
+      "VisitorType",
+      "Weekend"
+    ],
+    "parameters": {
+      "random_state": 42,
+      "max_iter": 1000,
+      "class_weight": null
+    },
+    "metrics": {
+      "accuracy": 0.8435067595247849,
+      "precision": 0.5,
+      "recall": 0.03926701570680628,
+      "f1": 0.07281553398058252,
+      "roc_auc": 0.7537372638067074,
+      "pr_auc": 0.33247749951458444
+    },
+    "confusion_matrix": [
+      [
+        2044,
+        15
+      ],
+      [
+        367,
+        15
+      ]
+    ]
+  },
+  "experiment_b_with_page_values": {
+    "model": "LogisticRegression",
+    "question": "Measure the change after adding PageValues to the same pipeline and split.",
+    "include_page_values": true,
+    "features": [
+      "Administrative",
+      "Administrative_Duration",
+      "Informational",
+      "Informational_Duration",
+      "ProductRelated",
+      "ProductRelated_Duration",
+      "BounceRates",
+      "ExitRates",
+      "SpecialDay",
+      "PageValues",
+      "Month",
+      "OperatingSystems",
+      "Browser",
+      "Region",
+      "TrafficType",
+      "VisitorType",
+      "Weekend"
+    ],
+    "numeric_features": [
+      "Administrative",
+      "Administrative_Duration",
+      "Informational",
+      "Informational_Duration",
+      "ProductRelated",
+      "ProductRelated_Duration",
+      "BounceRates",
+      "ExitRates",
+      "SpecialDay",
+      "PageValues"
+    ],
+    "categorical_features": [
+      "Month",
+      "OperatingSystems",
+      "Browser",
+      "Region",
+      "TrafficType",
+      "VisitorType",
+      "Weekend"
+    ],
+    "parameters": {
+      "random_state": 42,
+      "max_iter": 1000,
+      "class_weight": null
+    },
+    "metrics": {
+      "accuracy": 0.8869315854158132,
+      "precision": 0.7523809523809524,
+      "recall": 0.41361256544502617,
+      "f1": 0.5337837837837838,
+      "roc_auc": 0.8995738286007797,
+      "pr_auc": 0.6543451011217291
+    },
+    "confusion_matrix": [
+      [
+        2007,
+        52
+      ],
+      [
+        224,
+        158
+      ]
+    ]
+  },
+  "comparison": {
+    "with_page_values_minus_without_page_values": {
+      "accuracy": 0.04342483,
+      "precision": 0.25238095,
+      "recall": 0.37434555,
+      "f1": 0.46096825,
+      "roc_auc": 0.14583656,
+      "pr_auc": 0.3218676
+    }
+  },
+  "coefficients": {
+    "interpretation_note": "Coefficients represent learned associations and do not demonstrate causality.",
+    "without_page_values": {
+      "positive": [
+        {
+          "feature": "categorical__Browser_13",
+          "coefficient": 1.10842276
+        },
+        {
+          "feature": "categorical__TrafficType_7",
+          "coefficient": 0.73109917
+        },
+        {
+          "feature": "categorical__Browser_12",
+          "coefficient": 0.63436595
+        },
+        {
+          "feature": "categorical__Month_Nov",
+          "coefficient": 0.60629593
+        },
+        {
+          "feature": "categorical__TrafficType_8",
+          "coefficient": 0.47807704
+        },
+        {
+          "feature": "categorical__TrafficType_10",
+          "coefficient": 0.40628298
+        },
+        {
+          "feature": "categorical__TrafficType_20",
+          "coefficient": 0.38020093
+        },
+        {
+          "feature": "numeric__BounceRates",
+          "coefficient": 0.36111562
+        },
+        {
+          "feature": "categorical__Month_Oct",
+          "coefficient": 0.31669055
+        },
+        {
+          "feature": "categorical__TrafficType_11",
+          "coefficient": 0.19670569
+        }
+      ],
+      "negative": [
+        {
+          "feature": "numeric__ExitRates",
+          "coefficient": -1.4820266
+        },
+        {
+          "feature": "categorical__Month_Feb",
+          "coefficient": -1.15909487
+        },
+        {
+          "feature": "categorical__TrafficType_15",
+          "coefficient": -0.98095953
+        },
+        {
+          "feature": "categorical__Browser_7",
+          "coefficient": -0.93943293
+        },
+        {
+          "feature": "categorical__Browser_3",
+          "coefficient": -0.87466716
+        },
+        {
+          "feature": "categorical__TrafficType_13",
+          "coefficient": -0.60876805
+        },
+        {
+          "feature": "categorical__TrafficType_18",
+          "coefficient": -0.52588014
+        },
+        {
+          "feature": "categorical__OperatingSystems_8",
+          "coefficient": -0.48684004
+        },
+        {
+          "feature": "categorical__Browser_6",
+          "coefficient": -0.41576592
+        },
+        {
+          "feature": "categorical__Month_Mar",
+          "coefficient": -0.37931275
+        }
+      ],
+      "feature_count_after_preprocessing": 73
+    },
+    "with_page_values": {
+      "positive": [
+        {
+          "feature": "numeric__PageValues",
+          "coefficient": 1.52218271
+        },
+        {
+          "feature": "categorical__Browser_12",
+          "coefficient": 0.8439571
+        },
+        {
+          "feature": "categorical__Month_Nov",
+          "coefficient": 0.66685515
+        },
+        {
+          "feature": "categorical__TrafficType_8",
+          "coefficient": 0.53867966
+        },
+        {
+          "feature": "categorical__TrafficType_10",
+          "coefficient": 0.49883556
+        },
+        {
+          "feature": "categorical__TrafficType_7",
+          "coefficient": 0.40975117
+        },
+        {
+          "feature": "categorical__Browser_13",
+          "coefficient": 0.38965837
+        },
+        {
+          "feature": "categorical__Month_Jul",
+          "coefficient": 0.33693203
+        },
+        {
+          "feature": "categorical__OperatingSystems_7",
+          "coefficient": 0.3221146
+        },
+        {
+          "feature": "categorical__Month_Oct",
+          "coefficient": 0.28014936
+        }
+      ],
+      "negative": [
+        {
+          "feature": "categorical__Month_Feb",
+          "coefficient": -1.08573671
+        },
+        {
+          "feature": "categorical__Browser_3",
+          "coefficient": -0.92254158
+        },
+        {
+          "feature": "numeric__ExitRates",
+          "coefficient": -0.78247029
+        },
+        {
+          "feature": "categorical__TrafficType_15",
+          "coefficient": -0.73637485
+        },
+        {
+          "feature": "categorical__TrafficType_13",
+          "coefficient": -0.59494447
+        },
+        {
+          "feature": "categorical__Browser_7",
+          "coefficient": -0.53352105
+        },
+        {
+          "feature": "categorical__Month_Dec",
+          "coefficient": -0.50576023
+        },
+        {
+          "feature": "categorical__TrafficType_19",
+          "coefficient": -0.37995655
+        },
+        {
+          "feature": "categorical__Browser_6",
+          "coefficient": -0.37492552
+        },
+        {
+          "feature": "categorical__Weekend_False",
+          "coefficient": -0.36212691
+        }
+      ],
+      "feature_count_after_preprocessing": 74
+    }
+  },
+  "software": {
+    "python": "3.13.14",
+    "pandas": "3.0.5",
+    "scikit_learn": "1.9.0"
+  }
+}

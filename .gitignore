@@ -51,3 +51,6 @@ $RECYCLE.BIN/
 *.tmp
 *.temp
 ~$*
+
+# Dataset local del Proyecto 01
+datasets/online_shoppers_intention.csv

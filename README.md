@@ -1,6 +1,6 @@
 # Laboratorio de Datos e IA
 
-Este repositorio es un laboratorio público y progresivo para desarrollar y documentar habilidades prácticas relacionadas con datos e inteligencia artificial aplicada. Actualmente se encuentra en su etapa fundacional: la estructura y los principios de trabajo ya están definidos, pero todavía no se han publicado proyectos de datos.
+Este repositorio es un laboratorio público y progresivo para desarrollar y documentar habilidades prácticas relacionadas con datos e inteligencia artificial aplicada. Actualmente se encuentra en su etapa fundacional: la estructura y los principios de trabajo ya están definidos, y el primer proyecto cuenta con un experimento inicial reproducible en desarrollo.
 
 > Construir productos con propósito.
 
@@ -47,16 +47,20 @@ Estas son áreas de desarrollo planificadas, no afirmaciones sobre trabajo ya re
 - `docs/`: documentación técnica complementaria que no corresponda al README de un proyecto.
 - `requirements.txt`: paquetes externos de Python que el código ejecutable del repositorio realmente necesite.
 
-La estructura podrá evolucionar cuando exista una necesidad concreta. `requirements.txt` está intencionalmente vacío porque el repositorio todavía no contiene código ejecutable de Python que requiera paquetes externos.
+La estructura podrá evolucionar cuando exista una necesidad concreta. `requirements.txt` registra únicamente las dependencias directas necesarias para el código ejecutable actualmente versionado.
 
 ## Organización de proyectos
 
-Los proyectos futuros estarán numerados y tendrán nombres descriptivos, por ejemplo:
+Los proyectos están numerados y tienen nombres descriptivos. El primer proyecto inicializado es:
 
 ```text
 projects/
-└── 01-analisis-compradores-en-linea/
+└── 01-online-shoppers-purchase-intention/
 ```
+
+Consulta el [README del Proyecto 01](projects/01-online-shoppers-purchase-intention/README.md) para conocer el problema, el análisis, el baseline reproducible y sus limitaciones.
+
+**Proyecto 01:** análisis y predicción de intención de compra en sesiones de comercio electrónico. Utiliza Python, pandas, matplotlib y scikit-learn para documentar un EDA reproducible y un primer baseline de clasificación. Estado: primer hito analítico completado, abierto a revisión y futuras validaciones.
 
 Cada proyecto deberá documentar:
 
@@ -97,7 +101,7 @@ Esta hoja de ruta expresa una dirección para el trabajo futuro, no un calendari
 
 ## Estado actual
 
-Configuración inicial del repositorio. Todavía no se han publicado proyectos de datos.
+Configuración inicial completada. El Proyecto 01 es el primer proyecto funcional del laboratorio y cuenta con un hito analítico y baseline predictivo reproducibles; permanece abierto a validaciones posteriores.
 
 ## Reproducibilidad y documentación
 
