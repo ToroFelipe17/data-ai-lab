@@ -119,7 +119,7 @@ El proyecto global podrá incluir, de forma progresiva:
 8. conclusiones, limitaciones e implicaciones prudentes;
 9. documentación de reproducibilidad.
 
-Este alcance describe el proyecto completo. La presente misión solo cubre su diseño e inicialización documental.
+Este alcance describe el proyecto completo. El diseño e inicialización documental fueron la base del proyecto; este hito añade una primera auditoría reproducible, visualizaciones y una medición predictiva inicial, sin declarar terminado el proyecto global.
 
 ## Fuera de alcance inicial
 
