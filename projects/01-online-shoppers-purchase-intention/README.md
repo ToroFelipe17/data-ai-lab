@@ -2,7 +2,7 @@
 
 ## Estado actual
 
-**Diseño inicializado.** Esta misión documenta el problema, el dataset, el alcance y el plan de trabajo. Todavía no se ha descargado ni auditado el archivo de datos, no se ha realizado análisis exploratorio, no se han preparado datos para Machine Learning y no se han entrenado modelos.
+**Primer experimento de Machine Learning ejecutado; proyecto en desarrollo.** Se verificó el CSV, se preparó una copia en memoria sin modificar la fuente, y se compararon un baseline de clase mayoritaria y dos pipelines de regresión logística. El proyecto completo todavía no está terminado y no se ha realizado un EDA amplio.
 
 ## Descripción y motivación
 
@@ -60,7 +60,7 @@ Comprender la relación entre las características documentadas de una sesión d
 - **Creadores indicados por UCI:** C. Sakar y Yomi Kastro.
 - **Cita indicada por UCI:** Sakar, C. & Kastro, Y. (2018). *Online Shoppers Purchasing Intention Dataset*. UCI Machine Learning Repository.
 
-La ficha oficial declara 12.330 instancias, 17 características, un área temática de negocios, tareas asociadas de clasificación y clustering, y ausencia de valores faltantes declarados. UCI también informa 10.422 sesiones de clase negativa (84,5 %) y 1.908 de clase positiva. Además, indica que las instancias representan sesiones pertenecientes a usuarios distintos dentro de un período de un año, según la descripción del repositorio. Estas cifras son metadatos declarados por la fuente y deberán comprobarse empíricamente en la Misión 03.
+La ficha oficial declara 12.330 instancias, 17 características, un área temática de negocios, tareas asociadas de clasificación y clustering, y ausencia de valores faltantes declarados. UCI también informa 10.422 sesiones de clase negativa (84,5 %) y 1.908 de clase positiva. Además, indica que las instancias representan sesiones pertenecientes a usuarios distintos dentro de un período de un año, según la descripción del repositorio. La ejecución confirmó la forma, la ausencia de valores faltantes y la distribución original de `Revenue`; las decisiones de modelado se basan en una copia en memoria y no alteran el archivo fuente.
 
 ### Variables documentadas oficialmente
 
@@ -76,17 +76,17 @@ La ficha de UCI documenta `Revenue` como etiqueta de clase y describe las siguie
 
 La fuente describe conteos y duraciones de páginas administrativas, informativas y de productos; métricas de Google Analytics como `BounceRates`, `ExitRates` y `PageValues`; cercanía a días especiales mediante `SpecialDay`; y variables contextuales como sistema operativo, navegador, región, tipo de tráfico, tipo de visitante, mes y fin de semana.
 
-Estas son características declaradas por la fuente, no una auditoría del archivo que se usará. En la Misión 03 se verificará que el archivo adquirido corresponda a esta identidad, que los nombres y tipos coincidan, y que las condiciones declaradas se cumplan en la copia utilizada.
+La auditoría mínima del experimento confirmó que el archivo local corresponde a estas columnas, tiene 12.330 filas y 18 columnas, y no contiene valores faltantes. El CSV original permanece intacto; la eliminación de duplicados se aplicó únicamente a la copia en memoria destinada al modelado.
 
 ### Licencia y uso
 
 UCI indica que el dataset está disponible bajo [Creative Commons Attribution 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/). El uso del dataset deberá conservar la atribución correspondiente a sus creadores y a UCI. La cita, la URL de la fuente, el DOI, la fecha de adquisición y, cuando corresponda, una suma de comprobación del archivo se registrarán en la documentación de la etapa de adquisición.
 
-No se incorpora todavía una copia del CSV al repositorio. La decisión de almacenarlo o documentar únicamente su descarga se tomará cuando se revise el tamaño, la licencia, la necesidad de versionado y la política del repositorio.
+Existe una copia local en `datasets/online_shoppers_intention.csv`, pero permanece sin seguimiento de Git y no forma parte de ningún commit. La decisión sobre su publicación permanente se mantiene pendiente.
 
 ### Riesgos conceptuales a revisar
 
-`PageValues` se describe oficialmente como el valor promedio de una página visitada antes de completar una transacción. Su relación con `Revenue` es una pregunta analítica defendible, pero antes de incluirla en un modelo será necesario revisar si representa información disponible en el momento real de la predicción o si incorpora información demasiado cercana al resultado. Esa revisión no se resuelve en esta misión y deberá quedar explícita en la Misión 03 o en la etapa de modelado.
+`PageValues` se describe oficialmente como el valor promedio de una página visitada antes de completar una transacción. En este experimento su inclusión mejoró las métricas observadas, pero todavía debe revisarse si representa información disponible en el momento real de la predicción o si está demasiado cerca del resultado. Esto no permite afirmar leakage ni causalidad.
 
 ## Preguntas analíticas
 
@@ -148,7 +148,7 @@ La secuencia prevista es deliberadamente gradual:
 7. **Evaluación e interpretación:** comparar con el baseline, revisar matriz de confusión, precision, recall, F1, ROC-AUC o PR-AUC cuando sean pertinentes, y explicar qué significa cada resultado.
 8. **Cierre:** analizar errores, limitaciones, implicaciones y capacidad de reproducción; vincular cada conclusión con evidencia realmente obtenida.
 
-La metodología podrá ajustarse si la auditoría descubre restricciones del archivo, pero cualquier cambio deberá quedar documentado. No se ejecuta ninguna de estas etapas en la Misión 02.
+La metodología podrá ajustarse si la auditoría descubre restricciones del archivo, pero cualquier cambio deberá quedar documentado. La ejecución realizada en esta etapa se limita al baseline, la regresión logística y la comparación controlada descrita a continuación.
 
 ## Principios de evaluación futura
 
@@ -159,9 +159,75 @@ La metodología podrá ajustarse si la auditoría descubre restricciones del arc
 - La evaluación distinguirá desempeño predictivo de explicación causal.
 - La inclusión de variables como `PageValues` se revisará considerando el momento en que estarían disponibles.
 
+## Primer experimento de Machine Learning
+
+### Diseño implementado
+
+- **Objetivo:** `y = Revenue`, con `Revenue=True` como clase positiva.
+- **Preparación:** se conservaron 12.330 filas originales; se eliminaron 125 apariciones duplicadas posteriores solo en memoria; se utilizaron 12.205 filas para Machine Learning.
+- **Duplicados:** se observaron 201 filas involucradas en patrones repetidos y 76 patrones únicos repetidos. Esta decisión metodológica no afirma que las sesiones repetidas sean errores.
+- **Split:** 80 % entrenamiento y 20 % prueba, estratificado, `random_state=42`. Train contiene 9.764 filas y test 2.441.
+- **Preprocesamiento:** `StandardScaler` para variables numéricas, `OneHotEncoder(handle_unknown="ignore")` para variables categóricas, integrados mediante `ColumnTransformer` y `Pipeline`.
+- **Baseline:** `DummyClassifier(strategy="most_frequent")`, ajustado únicamente con train.
+- **Modelo:** `LogisticRegression(max_iter=1000, random_state=42)`, sin `class_weight="balanced"`, sin tuning y sin búsqueda de hiperparámetros.
+
+Las variables numéricas fueron las definidas en el diseño inicial. `Month`, `OperatingSystems`, `Browser`, `Region`, `TrafficType`, `VisitorType` y `Weekend` se trataron como categóricas, sin imponer ordinalidad a sus códigos. El Experimento A excluye `PageValues`; el Experimento B la agrega como variable numérica. Ambos reutilizan el mismo split y el mismo pipeline.
+
+### Auditoría mínima y distribución
+
+La distribución original de `Revenue` fue `False=10.422 (84.5255 %)` y `True=1.908 (15.4745 %)`. Después de eliminar duplicados para el modelado quedó `False=10.297 (84.3671 %)` y `True=1.908 (15.6329 %)`. No se detectaron valores faltantes.
+
+| Conjunto | Filas | Revenue=False | Revenue=True |
+| --- | ---: | ---: | ---: |
+| Train | 9.764 | 8.238 (84.3712 %) | 1.526 (15.6288 %) |
+| Test | 2.441 | 2.059 (84.3507 %) | 382 (15.6493 %) |
+
+### Resultados observados
+
+Las métricas se calcularon sobre el mismo test y con `Revenue=True` como clase positiva. `PR-AUC` corresponde a average precision.
+
+| Variante | Accuracy | Precision | Recall | F1 | ROC-AUC | PR-AUC |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Baseline | 0.8435 | 0.0000 | 0.0000 | 0.0000 | 0.5000 | 0.1565 |
+| Logistic sin `PageValues` | 0.8435 | 0.5000 | 0.0393 | 0.0728 | 0.7537 | 0.3325 |
+| Logistic con `PageValues` | 0.8869 | 0.7524 | 0.4136 | 0.5338 | 0.8996 | 0.6543 |
+
+Las matrices de confusión usan el orden `[[TN, FP], [FN, TP]]`:
+
+- Baseline: `[[2059, 0], [382, 0]]`.
+- Logistic sin `PageValues`: `[[2044, 15], [367, 15]]`.
+- Logistic con `PageValues`: `[[2007, 52], [224, 158]]`.
+
+### Interpretación prudente
+
+**Hallazgos observados:** la regresión logística sin `PageValues` conserva la accuracy del baseline, pero produce algunos positivos y obtiene ROC-AUC de 0.7537. Al agregar `PageValues`, la accuracy aumenta 0.0434, el recall aumenta 0.3743, el F1 aumenta 0.4610 y el PR-AUC aumenta 0.3219 en este test.
+
+**Interpretación o hipótesis:** `PageValues` parece aportar una señal predictiva fuerte en esta partición. Esto justifica investigar su disponibilidad temporal antes de cualquier conclusión más amplia, pero no demuestra leakage ni causalidad y no sustituye una validación posterior.
+
+### Coeficientes
+
+La salida completa se encuentra en `outputs/baseline_metrics.json`. Como muestra acotada:
+
+- Sin `PageValues`, los coeficientes positivos más altos incluyen `categorical__Browser_13` (1.11), `categorical__TrafficType_7` (0.73) y `categorical__Month_Nov` (0.61); entre los negativos aparecen `numeric__ExitRates` (-1.48) y `categorical__Month_Feb` (-1.16).
+- Con `PageValues`, el coeficiente positivo más alto fue `numeric__PageValues` (1.52), seguido por `categorical__Browser_12` (0.84); entre los negativos aparecen `categorical__Month_Feb` (-1.09) y `categorical__Browser_3` (-0.92).
+
+Los coeficientes representan asociaciones aprendidas por el modelo y no demuestran causalidad. Sus magnitudes no deben compararse automáticamente entre variables escaladas y variables one-hot.
+
+### Limitaciones de este experimento
+
+- La clase positiva es minoritaria y el baseline no detecta compradores.
+- Solo se utilizó una separación train/test; no se realizó validación cruzada.
+- El threshold no fue optimizado.
+- No hubo tuning ni balanceo de clases.
+- La interpretación no es causal.
+- La disponibilidad temporal de `PageValues` sigue pendiente.
+- La eliminación de duplicados fue una decisión metodológica de evaluación, no una corrección demostrada del dataset.
+
+Este experimento es una primera medición reproducible, no una declaración de que el proyecto esté terminado.
+
 ## Decisión estructural
 
-En esta inicialización se crea únicamente la carpeta del proyecto y este README. No se crean `notebooks/`, `src/`, `outputs/` ni archivos placeholder porque todavía no existen artefactos ejecutables o resultados que justifiquen esas carpetas.
+La estructura actual contiene únicamente los artefactos justificados por este experimento. No se crean notebooks porque el script es suficiente para ejecutar el flujo completo.
 
 La organización prevista reutiliza la estructura global del repositorio:
 
@@ -171,18 +237,22 @@ data-ai-lab/
 ├── notebooks/                # notebooks futuros, numerados y con prefijo del proyecto
 ├── projects/
 │   └── 01-online-shoppers-purchase-intention/
-│       └── README.md         # diseño, decisiones y estado del proyecto
+│       ├── README.md
+│       ├── src/
+│       │   └── baseline_model.py
+│       └── outputs/
+│           └── baseline_metrics.json
 ├── src/                      # código reutilizable, solo si existe una necesidad real
 └── docs/                     # documentación transversal, si llega a ser necesaria
 ```
 
-Esta decisión evita duplicar las carpetas globales y permite que el proyecto crezca con artefactos reales. Si la cantidad de notebooks, código o salidas lo justifica más adelante, se reevaluará una estructura específica sin crearla anticipadamente.
+Esta decisión mantiene el código y los resultados del proyecto juntos, reutiliza `datasets/` para la fuente local y evita notebooks o módulos adicionales sin necesidad concreta.
 
 ## Reproducibilidad esperada
 
 El trabajo terminado deberá indicar cómo obtener el dataset desde la fuente primaria, qué versión o archivo se utilizó, qué dependencias son necesarias, en qué orden se ejecutan los artefactos y qué decisiones afectan los resultados. Se preferirán rutas relativas y configuraciones explícitas; no se aceptarán rutas locales hardcodeadas ni dependencias ocultas.
 
-En esta misión no se agregan dependencias a `requirements.txt`, que permanece vacío intencionalmente porque no hay código ejecutable.
+Las dependencias directas utilizadas por el script están fijadas en `requirements.txt`: `pandas==3.0.5` y `scikit-learn==1.9.0`. Las versiones observadas durante la ejecución fueron Python 3.13.14, pandas 3.0.5 y scikit-learn 1.9.0.
 
 ## Criterios de finalización
 
@@ -205,4 +275,4 @@ Estos criterios corresponden a un proyecto individual de aprendizaje; no implica
 
 ## Próximos pasos
 
-La Misión 03 debería adquirir o localizar el archivo desde UCI, registrar su procedencia y realizar una auditoría inicial de identidad, estructura y calidad. No debe adelantar conclusiones de negocio ni entrenamiento de modelos antes de completar esa verificación.
+El siguiente paso lógico es revisar humanamente la disponibilidad temporal de `PageValues` y decidir si se justifica una evaluación posterior, sin modificar este test ni iniciar tuning automáticamente.

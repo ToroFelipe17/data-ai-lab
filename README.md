@@ -1,6 +1,6 @@
 # Laboratorio de Datos e IA
 
-Este repositorio es un laboratorio público y progresivo para desarrollar y documentar habilidades prácticas relacionadas con datos e inteligencia artificial aplicada. Actualmente se encuentra en su etapa fundacional: la estructura y los principios de trabajo ya están definidos, y el primer proyecto se encuentra en fase de diseño.
+Este repositorio es un laboratorio público y progresivo para desarrollar y documentar habilidades prácticas relacionadas con datos e inteligencia artificial aplicada. Actualmente se encuentra en su etapa fundacional: la estructura y los principios de trabajo ya están definidos, y el primer proyecto cuenta con un experimento inicial reproducible en desarrollo.
 
 > Construir productos con propósito.
 
@@ -47,7 +47,7 @@ Estas son áreas de desarrollo planificadas, no afirmaciones sobre trabajo ya re
 - `docs/`: documentación técnica complementaria que no corresponda al README de un proyecto.
 - `requirements.txt`: paquetes externos de Python que el código ejecutable del repositorio realmente necesite.
 
-La estructura podrá evolucionar cuando exista una necesidad concreta. `requirements.txt` está intencionalmente vacío porque el repositorio todavía no contiene código ejecutable de Python que requiera paquetes externos.
+La estructura podrá evolucionar cuando exista una necesidad concreta. `requirements.txt` registra únicamente las dependencias directas necesarias para el código ejecutable actualmente versionado.
 
 ## Organización de proyectos
 
@@ -99,7 +99,7 @@ Esta hoja de ruta expresa una dirección para el trabajo futuro, no un calendari
 
 ## Estado actual
 
-Configuración inicial completada. El Proyecto 01 está inicializado documentalmente; todavía no se han ejecutado análisis ni modelos.
+Configuración inicial completada. El Proyecto 01 tiene un primer experimento de clasificación ejecutado y documentado; el proyecto completo todavía no está terminado.
 
 ## Reproducibilidad y documentación
 
