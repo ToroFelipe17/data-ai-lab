@@ -2,7 +2,7 @@
 
 ## Estado actual
 
-**Primer hito analítico y baseline predictivo completados.** Se verificó el CSV, se generaron cinco visualizaciones reproducibles y se compararon un baseline de clase mayoritaria y dos pipelines de regresión logística. El proyecto permanece abierto a revisión y futuras validaciones; no se declara terminado.
+**Proyecto 01 completado.** Se verificó el CSV, se generaron cinco visualizaciones reproducibles y se compararon un baseline de clase mayoritaria y dos pipelines de regresión logística. El cierre documenta una referencia conservadora sin `PageValues` y un análisis de sensibilidad que incluye esa variable.
 
 ## Descripción y motivación
 
@@ -82,11 +82,11 @@ La auditoría mínima del experimento confirmó que el archivo local corresponde
 
 UCI indica que el dataset está disponible bajo [Creative Commons Attribution 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/). El uso del dataset deberá conservar la atribución correspondiente a sus creadores y a UCI. La cita, la URL de la fuente, el DOI, la fecha de adquisición y, cuando corresponda, una suma de comprobación del archivo se registrarán en la documentación de la etapa de adquisición.
 
-Existe una copia local en `datasets/online_shoppers_intention.csv`, pero permanece sin seguimiento de Git y no forma parte de ningún commit. La decisión sobre su publicación permanente se mantiene pendiente.
+Existe una copia local en `datasets/online_shoppers_intention.csv`, pero permanece sin seguimiento de Git y no forma parte de ningún commit. Para este proyecto se decidió mantener el dataset fuera del repositorio público y documentar su adquisición, fuente y checksum para permitir la reproducción local.
 
 ### Riesgos conceptuales a revisar
 
-`PageValues` se describe oficialmente como el valor promedio de una página visitada antes de completar una transacción. En este experimento su inclusión mejoró las métricas observadas, pero todavía debe revisarse si representa información disponible en el momento real de la predicción o si está demasiado cerca del resultado. Esto no permite afirmar leakage ni causalidad.
+`PageValues` se describe oficialmente como el valor promedio de una página visitada antes de completar una transacción. Su inclusión mejoró las métricas observadas, pero su disponibilidad temporal puede situarla demasiado cerca del resultado. Por esa razón, el modelo sin `PageValues` se adopta como referencia conservadora y el modelo que la incluye se conserva únicamente como análisis de sensibilidad por riesgo de disponibilidad temporal o posible leakage. Esto no demuestra leakage ni causalidad.
 
 ## Preguntas analíticas
 
@@ -150,14 +150,14 @@ La secuencia prevista es deliberadamente gradual:
 
 La metodología podrá ajustarse si la auditoría descubre restricciones del archivo, pero cualquier cambio deberá quedar documentado. La ejecución realizada en esta etapa se limita al baseline, la regresión logística y la comparación controlada descrita a continuación.
 
-## Principios de evaluación futura
+## Principios de evaluación
 
-- El baseline será explícito y servirá como referencia mínima.
+- El baseline es explícito y sirve como referencia mínima.
 - `accuracy` no será suficiente por sí sola si la distribución de clases está desbalanceada.
 - Las métricas se elegirán según la pregunta, los costos relativos de los errores y las limitaciones del diseño.
 - Una cifra superior no bastará para seleccionar un modelo: también se considerarán interpretabilidad, estabilidad, errores y reproducibilidad.
 - La evaluación distinguirá desempeño predictivo de explicación causal.
-- La inclusión de variables como `PageValues` se revisará considerando el momento en que estarían disponibles.
+- La inclusión de `PageValues` se interpreta como análisis de sensibilidad y no como la referencia principal, considerando el momento en que estaría disponible.
 
 ## Auditoría inicial
 
@@ -242,11 +242,25 @@ Las matrices de confusión usan el orden `[[TN, FP], [FN, TP]]`:
 - Logistic sin `PageValues`: `[[2044, 15], [367, 15]]`.
 - Logistic con `PageValues`: `[[2007, 52], [224, 158]]`.
 
+### Decisión metodológica final
+
+El **modelo sin `PageValues`** se adopta como referencia conservadora del Proyecto 01. Esta variante utiliza variables de comportamiento y contexto de la sesión sin depender de una señal cuya disponibilidad temporal puede estar demasiado próxima al resultado `Revenue`. En el mismo test obtuvo ROC-AUC `0.7537`, PR-AUC `0.3325` y recall `0.0393`; aunque su accuracy coincide con la del baseline (`0.8435`), identifica algunos positivos y mejora la capacidad de ordenamiento respecto de la referencia mayoritaria.
+
+El **modelo con `PageValues`** se conserva como análisis de sensibilidad. Su ROC-AUC `0.8996`, PR-AUC `0.6543` y F1 `0.5338` muestran una mejora importante en esta partición, pero esa diferencia no se interpreta como evidencia suficiente para seleccionar la variable como señal disponible en un escenario operativo. La documentación oficial y el comportamiento observado justifican revisar su temporalidad antes de usarla como predictor principal. El resultado no permite afirmar leakage, pero sí exige tratarlo como riesgo metodológico.
+
 ### Interpretación prudente
 
 **Hallazgos observados:** la regresión logística sin `PageValues` conserva la accuracy del baseline, pero produce algunos positivos y obtiene ROC-AUC de 0.7537. Al agregar `PageValues`, la accuracy aumenta 0.0434, el recall aumenta 0.3743, el F1 aumenta 0.4610 y el PR-AUC aumenta 0.3219 en este test.
 
-**Interpretación o hipótesis:** `PageValues` parece aportar una señal predictiva fuerte en esta partición. Esto justifica investigar su disponibilidad temporal antes de cualquier conclusión más amplia, pero no demuestra leakage ni causalidad y no sustituye una validación posterior.
+**Interpretación o hipótesis:** `PageValues` aporta una señal predictiva fuerte en esta partición, pero su papel queda restringido al análisis de sensibilidad. La referencia final del proyecto es el modelo sin `PageValues`; ninguna de las dos variantes demuestra causalidad ni desempeño productivo.
+
+## Conclusión final
+
+El Proyecto 01 muestra que variables simples de navegación y contexto contienen información asociada con la conversión observada. Un baseline basado en la clase mayoritaria alcanza accuracy `0.8435`, pero no identifica sesiones con compra. La regresión logística sin `PageValues` conserva esa accuracy, pero mejora el ordenamiento de las sesiones y alcanza ROC-AUC `0.7537`, por lo que se establece como referencia conservadora e interpretable.
+
+La variante con `PageValues` obtiene mejores métricas en el mismo test, pero no se adopta como modelo principal. La posibilidad de que esa variable no esté disponible con suficiente anticipación, o que se encuentre demasiado próxima al resultado, limita la interpretación de su mejora. Se reporta, por tanto, como análisis de sensibilidad y no como evidencia definitiva de capacidad predictiva operativa.
+
+Con esta decisión, el proyecto responde de forma acotada la pregunta central: sí es posible obtener una señal predictiva inicial con modelos simples, pero la magnitud y utilidad de esa señal dependen de la disponibilidad temporal de las variables, del diseño de evaluación y de la interpretación de los errores. El proyecto queda cerrado como laboratorio reproducible de aprendizaje, no como solución productiva ni como afirmación causal.
 
 ### Coeficientes
 
@@ -269,7 +283,7 @@ Los coeficientes representan asociaciones aprendidas por el modelo y no demuestr
 - Los meses ausentes no se rellenaron ni se representaron con valor cero.
 - La categoría `Other` de `VisitorType` no está reinterpretada.
 
-Este experimento es una primera medición reproducible, no una declaración de que el proyecto esté terminado.
+Estas limitaciones delimitan el alcance de la conclusión final y no invalidan el cierre del proyecto como experimento reproducible de aprendizaje.
 
 ## Decisión estructural
 
@@ -304,7 +318,7 @@ Esta decisión mantiene el código y los resultados del proyecto juntos, reutili
 
 ## Reproducibilidad esperada
 
-El trabajo terminado deberá indicar cómo obtener el dataset desde la fuente primaria, qué versión o archivo se utilizó, qué dependencias son necesarias, en qué orden se ejecutan los artefactos y qué decisiones afectan los resultados. Se preferirán rutas relativas y configuraciones explícitas; no se aceptarán rutas locales hardcodeadas ni dependencias ocultas.
+El trabajo documenta cómo obtener el dataset desde la fuente primaria, qué archivo se utilizó, qué dependencias son necesarias, en qué orden se ejecutan los artefactos y qué decisiones afectan los resultados. Se utilizan rutas relativas y configuraciones explícitas; no se aceptan rutas locales hardcodeadas ni dependencias ocultas.
 
 Las dependencias directas utilizadas por los scripts están fijadas en `requirements.txt`: `pandas==3.0.5`, `scikit-learn==1.9.0` y `matplotlib==3.11.1`. Las versiones observadas durante la ejecución fueron Python 3.13.14, pandas 3.0.5, scikit-learn 1.9.0 y matplotlib 3.11.1.
 
@@ -329,9 +343,9 @@ py projects/01-online-shoppers-purchase-intention/src/baseline_model.py
 
 El archivo esperado es `datasets/online_shoppers_intention.csv`, excluido por `.gitignore`. Su SHA-256 conocido es `B3055EE355F59134D851D32641183CB4A8B45DEF7124D2F50442A042F358E0D9`. La fuente oficial es UCI Machine Learning Repository, dataset 468, DOI [`10.24432/C5F88Q`](https://doi.org/10.24432/C5F88Q), bajo CC BY 4.0. El script EDA genera exactamente cinco PNG y `baseline_model.py` genera `outputs/baseline_metrics.json`.
 
-## Criterios de finalización
+## Criterios de finalización verificados
 
-El Proyecto 01 podrá considerarse terminado cuando:
+El Proyecto 01 se considera completado porque:
 
 - el dataset utilizado esté correctamente identificado, citado y documentado;
 - el proceso de adquisición y ejecución pueda repetirse desde una instalación documentada;
@@ -350,10 +364,10 @@ Estos criterios corresponden a un proyecto individual de aprendizaje; no implica
 
 ## Estado público
 
-> Primer hito analítico y baseline predictivo reproducible completados. El proyecto permanece abierto a revisión y futuras validaciones.
+> Proyecto 01 completado: hito analítico y baseline predictivo reproducibles, con decisión metodológica explícita sobre `PageValues`.
 
-Este estado no implica modelo definitivo, solución productiva, análisis causal ni cierre científico del Proyecto 01.
+Este estado no implica modelo definitivo, solución productiva ni análisis causal. Las posibles extensiones futuras quedan fuera del alcance de este cierre.
 
 ## Próximos pasos
 
-El siguiente paso lógico es una revisión humana de la disponibilidad temporal de `PageValues` y de la estabilidad de los hallazgos antes de cualquier nueva evaluación. No se propone tuning ni cambio de threshold en esta etapa.
+No quedan tareas pendientes para considerar terminado el Proyecto 01. Una futura extensión podría revisar la disponibilidad temporal de `PageValues` o evaluar la estabilidad de los hallazgos, pero no forma parte de este cierre. No se realizó tuning ni cambio de threshold.

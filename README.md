@@ -1,6 +1,6 @@
 # Laboratorio de Datos e IA
 
-Este repositorio es un laboratorio público y progresivo para desarrollar y documentar habilidades prácticas relacionadas con datos e inteligencia artificial aplicada. Actualmente se encuentra en su etapa fundacional: la estructura y los principios de trabajo ya están definidos, y el primer proyecto cuenta con un experimento inicial reproducible en desarrollo.
+Este repositorio es un laboratorio público y progresivo para desarrollar y documentar habilidades prácticas relacionadas con datos e inteligencia artificial aplicada. La estructura y los principios de trabajo están definidos, y el primer proyecto fue completado como un experimento reproducible de análisis y clasificación.
 
 > Construir productos con propósito.
 
@@ -58,9 +58,9 @@ projects/
 └── 01-online-shoppers-purchase-intention/
 ```
 
-Consulta el [README del Proyecto 01](projects/01-online-shoppers-purchase-intention/README.md) para conocer el problema, el análisis, el baseline reproducible y sus limitaciones.
+Consulta el [README del Proyecto 01](projects/01-online-shoppers-purchase-intention/README.md) para conocer el problema, el análisis, el baseline reproducible, la decisión sobre `PageValues` y sus limitaciones.
 
-**Proyecto 01:** análisis y predicción de intención de compra en sesiones de comercio electrónico. Utiliza Python, pandas, matplotlib y scikit-learn para documentar un EDA reproducible y un primer baseline de clasificación. Estado: primer hito analítico completado, abierto a revisión y futuras validaciones.
+**Proyecto 01:** análisis y predicción de intención de compra en sesiones de comercio electrónico. Utiliza Python, pandas, matplotlib y scikit-learn para documentar un EDA reproducible y un baseline de clasificación. Estado: **completado** como proyecto de aprendizaje; no representa una solución productiva ni una conclusión causal.
 
 Cada proyecto deberá documentar:
 
@@ -101,7 +101,7 @@ Esta hoja de ruta expresa una dirección para el trabajo futuro, no un calendari
 
 ## Estado actual
 
-Configuración inicial completada. El Proyecto 01 es el primer proyecto funcional del laboratorio y cuenta con un hito analítico y baseline predictivo reproducibles; permanece abierto a validaciones posteriores.
+Configuración inicial completada. El Proyecto 01 es el primer proyecto funcional y completado del laboratorio; cuenta con un análisis, un baseline predictivo reproducible y una decisión metodológica documentada sobre `PageValues`.
 
 ## Reproducibilidad y documentación
 
